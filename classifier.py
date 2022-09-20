@@ -5,6 +5,7 @@ from sentence_transformers import SentenceTransformer
 import torch
 from torch import nn
 from transformers import BertModel, BertTokenizer
+from singleton import Singleton
 
 class BertClassifier:
     
@@ -21,7 +22,7 @@ class BertClassifier:
         self.base_classifier = SentenceTransformer(self.base_classifier_path)
 
 
-class CustomBertClassifier(BertClassifier):
+class CustomBertClassifier(BertClassifier, metaclass = Singleton):
     
     def __init__(self, 
         base_classifier_name = 'bert-base-uncased', 
