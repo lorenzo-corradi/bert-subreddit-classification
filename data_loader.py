@@ -1,6 +1,4 @@
 import pandas as pd
-import random
-import gc
 import torch
 import os
 import config
@@ -23,7 +21,6 @@ class DataLoader:
         
         glob_filepath = os.path.join(config.ENCODINGS_DIR, keyword)
         
-        # hardcoded with [0]
         filepath_encodings = glob.glob(glob_filepath)[0]
         filepath_labels = glob.glob(glob_filepath)[1]
             

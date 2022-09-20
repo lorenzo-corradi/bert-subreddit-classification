@@ -23,13 +23,3 @@ LABELS_DICT = {
     4: 'bioinformatics',
     5: 'dataengineering'
 }
-
-# Python                  74942
-# MachineLearning         74936
-# ProgrammerHumor         74896
-# learnpython             74870
-# datascience             72613
-# learnmachinelearning    47201
-# BusinessIntelligence    23449
-# bioinformatics          20807
-# dataengineering         14447

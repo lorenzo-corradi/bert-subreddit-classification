@@ -37,4 +37,3 @@ class AppBackend:
             tsne_to_plot = compute_tsne.compute_tsne(encodings=encodings_tsne, labels=labels_tsne)
             
         return predictions_labels, predictions_confidence, tsne_to_plot
-        

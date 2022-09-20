@@ -6,8 +6,6 @@ from app_backend import AppBackend
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# TODO: concat different datasets -> plot statistics -> train transformers on dataset (word embedding + final classification head) -> plot tsne -> ...
-
 APP_TITLE = 'SubReddit predictor'
 APP_SUBTITLE = 'This is an app helping you to choose the right SubReddit to post a submission in the field of data and analytics!'
 BACKGROUND = os.path.join(config.IMAGES_DIR, 'univr_logo.png')
@@ -127,5 +125,3 @@ if __name__ == '__main__':
 
                 # BUG: plt.figure breaks plot                
                 st.pyplot()
-                
-
