@@ -4,7 +4,7 @@ argon2-cffi-bindings==21.2.0
 asttokens==2.0.5
 attrs==22.1.0
 backcall==0.2.0
-backports.zoneinfo==0.2.1
+backports.zoneinfo==0.2.1;python_version<"3.9"
 beautifulsoup4==4.11.1
 bleach==5.0.1
 blinker==1.5
@@ -83,8 +83,8 @@ pyrsistent==0.18.1
 python-dateutil==2.8.2
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
-pywin32==304
-pywinpty==2.0.6
+# pywin32==304
+# pywinpty==2.0.6
 PyYAML==6.0
 pyzmq==23.2.0
 regex==2022.3.15

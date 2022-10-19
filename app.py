@@ -3,12 +3,13 @@ import config
 import base64
 import os.path
 from app_backend import AppBackend
+from classifier import CustomBertClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 APP_TITLE = 'SubReddit predictor'
 APP_SUBTITLE = 'This is an app helping you to choose the right SubReddit to post a submission in the field of data and analytics!'
-BACKGROUND = os.path.join(config.IMAGES_DIR, 'univr_logo.png')
+BACKGROUND = os.path.join(config.IMAGES_DIR, 'reddit_logo.png')
 
 def run_backend(post_title, post_body, plot_tsne):
     try:
@@ -36,11 +37,11 @@ def set_background(background):
         <style>
         .stApp{{
             background-image: url(data:image/{background_extension};base64,{base64.b64encode(open(background, "rb").read()).decode()});
-            background-size: 15%;
+            background-size: 12%;
             background-position: right top;
             background-repeat: no-repeat;
             background-origin: content-box;
-            padding: 60px;
+            padding: 55px;
         }}
         #MainMenu {{visibility: hidden;}}
         footer {{visibility: hidden;}}
@@ -49,6 +50,10 @@ def set_background(background):
     )
     
     return
+
+@st.experimental_singleton
+def init_classifier():
+    classifier = CustomBertClassifier()
     
 if __name__ == '__main__':
     
@@ -87,6 +92,9 @@ if __name__ == '__main__':
             )            
             
     col_space_left, col_result, col_space_right = st.columns((1, 5, 1))
+    
+    # singleton classifier initialization to speed up computation
+    init_classifier()
 
     if (backend_button == True):
         with col_result:
