@@ -5,14 +5,15 @@ from prediction_handling import PredictionHandling
 
 class AppBackend:
     
-    def run(self, post_title, post_body, plot_tsne):
+    def run(self, post_title, post_body, plot_tsne: bool):
         
         data_loader = DataLoader()
         
         post = data_loader.save_text_inputs(post_title=post_title, post_body=post_body)
         
         classifier = CustomBertClassifier()
-           
+        
+        # improve this to return embeddings only if used by plot_tsne
         post_predictions, post_encoding = classifier.encode(post)
         
         prediction_handling = PredictionHandling()
@@ -21,7 +22,7 @@ class AppBackend:
         
         tsne_to_plot = []
         
-        if (plot_tsne == True):
+        if plot_tsne:
             
             encodings_tsne, labels_tsne = data_loader.load_encodings()
             

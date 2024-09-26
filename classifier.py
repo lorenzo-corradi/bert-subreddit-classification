@@ -31,6 +31,7 @@ class CustomBertClassifier(BertClassifier, metaclass = Singleton):
         self.trained_classifier_name = trained_classifier_name
         self.trained_classifier_path = os.path.join(config.MODELS_DIR, self.trained_classifier_name)
         
+        # initialize a base BERT classifier to pass to the class that loads pretrained BERT
         super().__init__(base_classifier_name)
         
         DIM_HIDDEN1 = 384
@@ -38,20 +39,22 @@ class CustomBertClassifier(BertClassifier, metaclass = Singleton):
         DIM_HIDDEN3 = 512
         N_CLASSES = 9
         
+        # initialize pretrained BERT with additional layers and custom forward and mean pooling methods
         self.trained_classifier = BERTClass(DIM_HIDDEN1, DIM_HIDDEN2, DIM_HIDDEN3, N_CLASSES, bert = self.base_classifier_name)
         
         checkpoint = torch.load(
             self.trained_classifier_path, 
             map_location=torch.device('cpu')
         )
+        # load a checkpoint of the trained model trained beforehand and stored locally
         self.trained_classifier.load_state_dict(checkpoint['model_state_dict'])
         
     def encode(self, sentence):
         return self.trained_classifier(sentences = sentence)
 
 
-# NOTE: helper class to allow successful load_state_dict
 class BERTClass(nn.Module):
+    """Helper class to allow successful load_state_dict"""
     def __init__(self, dim_hidden1, dim_hidden2, dim_hidden3, n_class, bert):
         super(BERTClass, self).__init__()
         
@@ -82,9 +85,13 @@ class BERTClass(nn.Module):
         x = self.activation(self.dropout(self.linear3(x)))
         x = self.activation(self.linear4(x))
         
+        # return logits (not normalized scores) for each class and mean-pooled sentence embeddings from BERT
         return x, encodings
         
     def mean_pooling(self, x, attention_mask):
-        token_embeddings = x[0] # First element of BERT output contains all token embeddings
+        # retrieve first element of BERT output that contains all token embeddings
+        token_embeddings = x[0]
+        # expand attention mask to match dimensions of token embeddings
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+        # averages the embeddings of non-masked padded tokens (sentences may have variable lengths)
         return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)

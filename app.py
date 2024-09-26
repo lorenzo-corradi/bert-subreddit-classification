@@ -73,7 +73,6 @@ if __name__ == '__main__':
     )
     
     set_background(background=BACKGROUND)
-
     
     post_title = st.text_area(label = 'Write title of your Reddit submission.', height = 75)
     post_body = st.text_area(label = 'Write content of your Reddit submission.', height = 150)
